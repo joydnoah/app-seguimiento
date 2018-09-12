@@ -5,7 +5,7 @@ import { GlobalProvider } from '../../providers/global/global';
 import { Geolocation } from '@ionic-native/geolocation';
 import { BatteryStatus } from '@ionic-native/battery-status';
 import { Device } from '@ionic-native/device';
-import { Observable } from 'Rxjs/Rx';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'page-home',
