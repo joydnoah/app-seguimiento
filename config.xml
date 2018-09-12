@@ -86,4 +86,5 @@
     </plugin>
     <plugin name="cordova-plugin-battery-status" spec="^2.0.2" />
     <plugin name="cordova-plugin-device" spec="^2.0.2" />
+    <engine name="android" spec="7.0.0" />
 </widget>

@@ -15,6 +15,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class IndividualFormPage {
   formTitle: string;
   formSections: any[]=[];
+  formAnswers: any[] = []
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.formTitle = navParams.get("title")
@@ -23,6 +24,11 @@ export class IndividualFormPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad IndividualFormPage');
+    for (var i =0; i < this.formSections.length; i++) {
+      this.formAnswers.push(
+        {'answer': ''}
+      )
+    }
   }
 
 }

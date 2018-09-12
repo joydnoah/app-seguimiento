@@ -44,17 +44,10 @@ export class HomePage {
     if (this.email == default_email && this.password == default_password) {
       this.global.logedIn = true;
       this.global.forms = this.example_forms;
+      this.global.serial = this.device.serial;
+      this.global.operating_system = this.device.platform;
       Observable.interval(1000).subscribe(()=>{
-        this.global.serial = this.device.serial
-        this.global.operating_system = this.device.platform
         this.global.date = new Date();
-      });
-      let watch = this.geolocation.watchPosition();
-      watch.subscribe((data) => {
-        this.global.coordinates = data.coords
-      });
-      this.batteryStatus.onChange().subscribe(status => {
-        this.global.batterylevel = status.level
       });
     }
   }
