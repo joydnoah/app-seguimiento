@@ -1,0 +1,22 @@
+<!--
+  Generated template for the FormsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Formularios</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let form of global.forms" (click)="openForm(form.name, example_form)">
+      <span>{{form.name | uppercase}}</span>
+    </ion-item>
+  </ion-list>
+</ion-content>

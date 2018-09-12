@@ -1,14 +1,41 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      APP seguimiento
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <ion-list *ngIf="!this.global.logedIn">
+    <ion-item>
+      <ion-label color="primary" floating>E-mail</ion-label>
+      <ion-input [(ngModel)]="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" floating>Password</ion-label>
+      <ion-input type="password" [(ngModel)]="password"></ion-input>
+    </ion-item>
+    <p>
+      <button ion-button (click)="loginRequest()">Login</button>
+    </p>
+  </ion-list>
+  <div *ngIf="this.global.logedIn">
+    <h1>Bienvenido!</h1>
+    <p *ngIf="coordinates !== undefined">
+      Coordenadas: {{global.coordinates.latitude + " , " + global.coordinates.longitude}}
+    </p>
+    <p>
+      Operating system: {{ global.operating_system }}
+    </p>
+    <p>
+      Serial: {{ global.serial }}
+    </p>
+    <p>
+      Date: {{ global.date }}
+    </p>
+    <p>
+      Battery: {{ global.batterylevel }}
+    </p>
+  </div>
 </ion-content>

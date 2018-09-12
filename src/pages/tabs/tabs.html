@@ -1,0 +1,4 @@
+<ion-tabs>
+  <ion-tab [root]="homePage" tabTitle="Home" tabIcon="home"></ion-tab>
+  <ion-tab *ngIf="global.logedIn" [root]="formPage" tabTitle="Forms" tabIcon="clipboard"></ion-tab>
+</ion-tabs>
