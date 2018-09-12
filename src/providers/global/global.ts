@@ -13,6 +13,6 @@ export class GlobalProvider {
   coordinates: any;
   operating_system: string;
   serial: string;
-  batterylevel: any;
+  batterylevel: any='No battery';
   date: any;
 }
