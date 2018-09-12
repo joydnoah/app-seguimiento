@@ -44,11 +44,8 @@ export class HomePage {
     if (this.email == default_email && this.password == default_password) {
       this.global.logedIn = true;
       this.global.forms = this.example_forms;
-      Observable.interval(1000).subscribe(()=>{
-        this.global.serial = this.device.serial
-        this.global.operating_system = this.device.platform
-        this.global.date = new Date();
-      });
+      this.global.serial = this.device.serial;
+      this.global.operating_system = this.device.platform;
     }
   }
   getToOtherPage() {
@@ -57,10 +54,11 @@ export class HomePage {
   ionViewDidLoad() {
     let watch = this.geolocation.watchPosition();
     watch.subscribe((data) => {
-      this.global.coordinates = data.coords
+      this.global.coordinates = data.coords;
     });
     this.batteryStatus.onChange().subscribe(status => {
-      this.global.batterylevel = status.level
+      this.global.batterylevel = status.level;
+      this.global.date = new Date();
     });
   }
 }
