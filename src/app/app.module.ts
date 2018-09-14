@@ -10,9 +10,11 @@ import { FormsPage } from '../pages/forms/forms';
 import { IndividualFormPage } from '../pages/individual-form/individual-form';
 import { TabsPage } from '../pages/tabs/tabs';
 import { GlobalProvider } from '../providers/global/global';
+import { HttpProvider } from '../providers/http/http';
 import { Geolocation } from '@ionic-native/geolocation';
 import { BatteryStatus } from '@ionic-native/battery-status';
 import { Device } from '@ionic-native/device';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { Device } from '@ionic-native/device';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -41,7 +44,8 @@ import { Device } from '@ionic-native/device';
     GlobalProvider,
     Geolocation,
     BatteryStatus,
-    Device
+    Device,
+    HttpProvider
   ]
 })
 export class AppModule {}

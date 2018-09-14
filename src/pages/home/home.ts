@@ -6,6 +6,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { BatteryStatus } from '@ionic-native/battery-status';
 import { Device } from '@ionic-native/device';
 import { Observable } from 'rxjs';
+import { HttpProvider } from '../../providers/http/http';
 
 @Component({
   selector: 'page-home',
@@ -15,7 +16,7 @@ export class HomePage {
   email: string;
   password: string;
   formPage: any = FormsPage;
-
+  response: string;
   example_forms: any[]=[
     {
       'id': '1',
@@ -34,10 +35,12 @@ export class HomePage {
     public global: GlobalProvider,
     private geolocation: Geolocation,
     private batteryStatus: BatteryStatus,
-    private device: Device
+    private device: Device,
+    public http: HttpProvider
   ) {
 
   }
+
   loginRequest(){
     var default_email='test';
     var default_password='1234';
@@ -51,6 +54,25 @@ export class HomePage {
       });
     }
   }
+
+  ionViewDidLoad() {
+    this.http.getLogin()
+    .subscribe(
+      (data) => { // Success
+        console.log('Success')
+        console.log(data)
+        this.response = 'Success'
+      },
+      (error) =>{
+        console.log('Error')
+        console.log(Object.keys(error));
+        console.log(error.error)
+        console.log(error.message)
+        this.response = 'Error'
+      }
+    )
+  }
+
   getToOtherPage() {
     this.navCtrl.push(this.formPage)
   }

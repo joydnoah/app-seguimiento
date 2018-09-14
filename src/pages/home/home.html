@@ -19,6 +19,9 @@
     <p>
       <button ion-button (click)="loginRequest()">Login</button>
     </p>
+    <p>
+      Response: {{ response }}
+    </p>
   </ion-list>
   <div *ngIf="this.global.logedIn">
     <h1>Bienvenido!</h1>
