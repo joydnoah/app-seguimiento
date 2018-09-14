@@ -42,9 +42,8 @@ export class HomePage {
   }
 
   loginRequest(){
-    var default_email='test';
-    var default_password='1234';
-    if (this.email == default_email && this.password == default_password) {
+    this.http.getLogin(this.email, this.password)
+    .then(data => {
       this.global.logedIn = true;
       this.global.forms = this.example_forms;
       this.global.serial = this.device.serial;
@@ -52,25 +51,14 @@ export class HomePage {
       Observable.interval(1000).subscribe(()=>{
         this.global.date = new Date();
       });
-    }
+    })
+    .catch(error => {
+      console.log(error)
+    });
   }
 
   ionViewDidLoad() {
-    this.http.getLogin()
-    .subscribe(
-      (data) => { // Success
-        console.log('Success')
-        console.log(data)
-        this.response = 'Success'
-      },
-      (error) =>{
-        console.log('Error')
-        console.log(Object.keys(error));
-        console.log(error.error)
-        console.log(error.message)
-        this.response = 'Error'
-      }
-    )
+    this.http.getToken()
   }
 
   getToOtherPage() {

@@ -15,6 +15,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { BatteryStatus } from '@ionic-native/battery-status';
 import { Device } from '@ionic-native/device';
 import { HttpClientModule } from '@angular/common/http';
+import { HTTP } from '@ionic-native/http';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { HttpClientModule } from '@angular/common/http';
     Geolocation,
     BatteryStatus,
     Device,
-    HttpProvider
+    HttpProvider,
+    HTTP
   ]
 })
 export class AppModule {}
