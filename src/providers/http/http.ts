@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HTTP } from '@ionic-native/http';
+import { Platform } from 'ionic-angular';
 
 /*
   Generated class for the HttpProvider provider.
@@ -12,10 +13,16 @@ import { HTTP } from '@ionic-native/http';
 export class HttpProvider {
   token: any;
   token_ready: boolean=false;
+  error_message: any;
   constructor(
     public http: HttpClient,
-    private http_native: HTTP
+    private http_native: HTTP,
+    private platform: Platform
   ) {
+    this.platform.ready()
+    .then(() =>{
+      console.log('Platform ready')
+    })
     console.log('Hello HttpProvider Provider');
   }
   getToken() {
@@ -28,6 +35,7 @@ export class HttpProvider {
     .catch(error => {
       console.log('error token')
       console.log(error)
+      this.error_message = error
     });
   }
   getLogin(email, password) {

@@ -7,7 +7,10 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list *ngIf="!this.global.logedIn">
+  <p>
+    {{ this.http.error_message }}
+  </p>
+  <ion-list *ngIf="(!this.global.logedIn) && this.http.token_ready">
     <ion-item>
       <ion-label color="primary" floating>E-mail</ion-label>
       <ion-input [(ngModel)]="email"></ion-input>
@@ -20,7 +23,7 @@
       <button ion-button (click)="loginRequest()">Login</button>
     </p>
   </ion-list>
-  <div *ngIf="this.global.logedIn">
+  <div *ngIf="(this.global.logedIn) && this.http.token_ready">
     <h1>Bienvenido!</h1>
     <p *ngIf="coordinates !== undefined">
       Coordenadas: {{global.coordinates.latitude + " , " + global.coordinates.longitude}}
