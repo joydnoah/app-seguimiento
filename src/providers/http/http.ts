@@ -11,6 +11,7 @@ import { HTTP } from '@ionic-native/http';
 @Injectable()
 export class HttpProvider {
   token: any;
+  token_ready: boolean=false;
   constructor(
     public http: HttpClient,
     private http_native: HTTP
@@ -22,6 +23,7 @@ export class HttpProvider {
     .then(data => {
       console.log('======  status token')
       this.token = JSON.parse(data.data)._csrf
+      this.token_ready = true
     })
     .catch(error => {
       console.log('error token')
