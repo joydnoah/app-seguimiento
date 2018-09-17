@@ -17,18 +17,6 @@ export class HomePage {
   password: string;
   formPage: any = FormsPage;
   response: string;
-  example_forms: any[]=[
-    {
-      'id': '1',
-      'name': 'form1',
-      'version': 'v1'
-    },
-    {
-      'id': '2',
-      'name': 'form2',
-      'version': 'v1'
-    }
-  ];
 
   constructor(
     public navCtrl: NavController,
@@ -45,9 +33,11 @@ export class HomePage {
     this.http.getLogin(this.email, this.password)
     .then(data => {
       this.global.logedIn = true;
-      this.global.forms = this.example_forms;
       this.global.serial = this.device.serial;
       this.global.operating_system = this.device.platform;
+      const subscription = this.batteryStatus.onChange().subscribe(status => {
+        this.global.batterylevel = status.level
+      });
       Observable.interval(1000).subscribe(()=>{
         this.global.date = new Date();
       });

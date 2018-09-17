@@ -15,7 +15,7 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let form of global.forms" (click)="openForm(form.name, example_form)">
+    <ion-item *ngFor="let form of global.forms" (click)="openForm(form.name, form.bodySections)">
       <span>{{form.name | uppercase}}</span>
     </ion-item>
   </ion-list>

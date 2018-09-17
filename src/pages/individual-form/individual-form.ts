@@ -14,21 +14,16 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class IndividualFormPage {
   formTitle: string;
-  formSections: any[]=[];
+  formInputs: any[]=[];
   formAnswers: any[] = []
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.formTitle = navParams.get("title")
-    this.formSections = navParams.get("sections")
+    this.formInputs = navParams.get("inputs")
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad IndividualFormPage');
-    for (var i =0; i < this.formSections.length; i++) {
-      this.formAnswers.push(
-        {'answer': ''}
-      )
-    }
   }
 
 }

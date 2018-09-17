@@ -45,4 +45,7 @@ export class HttpProvider {
       '_csrf': this.token
     }, {});
   }
+  getForms() {
+    return this.http_native.get('http://181.143.188.106/api/forms/user', {}, {})
+  }
 }

@@ -15,99 +15,6 @@ import { IndividualFormPage } from '../individual-form/individual-form';
   templateUrl: 'forms.html',
 })
 export class FormsPage {
-  example_form: any[]=[
-    {
-      'form': '',
-      'bodySection':  '',
-      'inputType': 'text',
-      'label': 'Some label 1',
-      'help': '',
-      'isRequired': '',
-      'includeInFilters': '',
-      'maxLength': '',
-      'minLength': '',
-      'maxValue': '',
-      'minValue': '',
-      'is12h': '',
-      'selectType': '',
-      'domain': '',
-      'canTypeOther': '',
-      'labelCanTypeOther': '',
-      'yesText': '',
-      'noText': '',
-      'minStep': '',
-      'maxStep': '',
-      'stepValue': '',
-      'editableLocation': '',
-      'photoSource': '',
-      'imageQuality': '',
-      'newDomainName': '',
-      'newDomainDescription': '',
-      'newDomainOptions': '',
-      'selectOptions': '',
-    },
-    {
-      'form': '',
-      'bodySection':  '',
-      'inputType': 'textarea',
-      'label': 'Some label 2',
-      'help': '',
-      'isRequired': '',
-      'includeInFilters': '',
-      'maxLength': '',
-      'minLength': '',
-      'maxValue': '',
-      'minValue': '',
-      'is12h': '',
-      'selectType': '',
-      'domain': '',
-      'canTypeOther': '',
-      'labelCanTypeOther': '',
-      'yesText': '',
-      'noText': '',
-      'minStep': '',
-      'maxStep': '',
-      'stepValue': '',
-      'editableLocation': '',
-      'photoSource': '',
-      'imageQuality': '',
-      'newDomainName': '',
-      'newDomainDescription': '',
-      'newDomainOptions': '',
-      'selectOptions': '',
-    },
-    {
-      'form': '',
-      'bodySection':  '',
-      'inputType': 'geolocation',
-      'label': 'Some label 3',
-      'help': '',
-      'isRequired': '',
-      'includeInFilters': '',
-      'maxLength': '',
-      'minLength': '',
-      'maxValue': '',
-      'minValue': '',
-      'is12h': '',
-      'selectType': '',
-      'domain': '',
-      'canTypeOther': '',
-      'labelCanTypeOther': '',
-      'yesText': '',
-      'noText': '',
-      'minStep': '',
-      'maxStep': '',
-      'stepValue': '',
-      'editableLocation': '',
-      'photoSource': '',
-      'imageQuality': '',
-      'newDomainName': '',
-      'newDomainDescription': '',
-      'newDomainOptions': '',
-      'selectOptions': '',
-    }
-  ];
-
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -119,9 +26,13 @@ export class FormsPage {
     console.log('ionViewDidLoad FormsPage');
   }
   openForm(title, sections) {
+    var inputs = []
+    if (sections.length > 0) {
+      inputs = sections[0].inputs
+    }
     this.navCtrl.push(IndividualFormPage, {
       title: title,
-      sections: sections
+      inputs: inputs
     })
   }
 

@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { FormsPage } from '../forms/forms';
 import { HomePage } from '../home/home';
 import { GlobalProvider } from '../../providers/global/global';
+import { HttpProvider } from '../../providers/http/http';
 
 /**
  * Generated class for the TabsPage page.
@@ -22,8 +23,20 @@ export class TabsPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public global: GlobalProvider
+    public global: GlobalProvider,
+    public http: HttpProvider
   ) {
+  }
+
+  updateForms() {
+    console.log('update forms')
+    this.http.getForms()
+    .then(data => {
+      this.global.forms = JSON.parse(data.data)
+    })
+    .catch(error => {
+      console.log(error.error)
+    });
   }
 
 }
