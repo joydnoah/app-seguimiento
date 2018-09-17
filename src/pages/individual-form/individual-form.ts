@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 /**
@@ -24,7 +24,8 @@ export class IndividualFormPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    private alertCtrl: AlertController
   ) {
     this.formTitle = navParams.get("title")
     this.formSections = navParams.get("sections")
@@ -95,6 +96,32 @@ export class IndividualFormPage {
     console.log('ionViewDidLoad IndividualFormPage');
   }
 
+  notValidFormAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Not valid form',
+      message: 'some inputs may be wrong, plese verify them and try again.',
+      buttons: ['Dismiss']
+    });
+    alert.present();
+  }
+
+  successAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Succes',
+      message: 'The form was sent successfully.',
+      buttons: ['Dismiss']
+    });
+    alert.present();
+  }
+
+  formatAnswers() {
+    for (var n=0; n < this.formSections.length; n++) {
+      for (var i=0; i < this.formSections[n].inputs.length; i++) {
+        this.formSections[n].inputs[i].answer = this.formSectionsControllers[n].controller.controls['control' + this.formSectionsControllers[n].inputs[i].id].value
+      }
+    }
+  }
+
   save(){
     var validation = true;
     this.submitAttempt = true;
@@ -103,9 +130,12 @@ export class IndividualFormPage {
     }
     if(!validation){
         console.log("fail")
+        this.notValidFormAlert()
     }
     else {
         console.log("success!")
+        this.formatAnswers()
+        this.successAlert()
     }
   }
 

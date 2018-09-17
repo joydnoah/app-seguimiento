@@ -43,7 +43,7 @@ export class TabsPage {
   }
 
   logOutAlert() {
-  let logOut = this.alertCtrl.create({
+    let logOut = this.alertCtrl.create({
       title: 'Log Out',
       message: 'Do you want to log out?',
       buttons: [
