@@ -14,10 +14,76 @@
 
 
 <ion-content padding>
-  <ion-list>
-    <ion-item *ngFor="let input of formInputs; let i = index">
-      <ion-label color="primary" floating>{{ input.label }}</ion-label>
-      <ion-input [(ngModel)]="input.answer"></ion-input>
-    </ion-item>
-  </ion-list>
+  <div *ngFor="let section of formSections; let i = index">
+    <h1>
+      {{ section.name }}
+    </h1>
+    <h2>
+      {{ section.description }}
+    </h2>
+    <ion-list no-lines>
+      <div>
+        <form [formGroup]="formSectionsControllers[i].controller">
+          <div *ngFor="let input of section.inputs; let n = index">
+            <ion-item *ngIf="input.inputType === 'text'">
+              <ion-label floating>{{ input.label }}</ion-label>
+              <ion-input [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" type="text" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="input.inputType === 'textarea'">
+              <ion-label floating>{{ input.label }}</ion-label>
+              <ion-textarea [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" type="text" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt"></ion-textarea>
+            </ion-item>
+            <ion-item *ngIf="input.inputType === 'e-mail'">
+              <ion-label floating>{{ input.label }}</ion-label>
+              <ion-input [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" type="email" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="input.inputType === 'number' || input.inputType === 'money'">
+              <ion-label floating>{{ input.label }}</ion-label>
+              <ion-input [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" [min]="input.minValue" [max]="input.maxValue" type="number" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="input.inputType === 'cellphone'">
+              <ion-label floating>{{ input.label }}</ion-label>
+              <ion-input [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" type="tel" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="input.inputType === 'only-one'">
+              <ion-label floating>{{ input.label }}</ion-label>
+              <ion-select [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" type="text" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt">
+                <ion-option *ngFor="let value of input.values" [value]="value.key">{{ value.value }}</ion-option>
+              </ion-select>
+            </ion-item>
+            <ion-item *ngIf="input.inputType === 'yes-no'">
+              <ion-label floating>{{ input.label }}</ion-label>
+              <ion-select [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" type="text" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt">
+                <ion-option value="yes">{{ input.yesText }}</ion-option>
+                <ion-option value="no">{{ input.noText }}</ion-option>
+              </ion-select>
+            </ion-item>
+            <ion-item *ngIf="input.inputType === 'gender'">
+              <ion-label floating>{{ input.label }}</ion-label>
+              <ion-select [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" type="text" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt">
+                <ion-option value="male">Masculino</ion-option>
+                <ion-option value="female">Femenino</ion-option>
+              </ion-select>
+            </ion-item>
+            <ion-item *ngIf="input.inputType === 'ranking'">
+              <ion-label>{{ input.label }}: {{ formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].value }}</ion-label>
+              <ion-range [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt" [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" [min]="input.minStep" [max]="input.maxStep" [step]="input.stepValue">
+                <ion-label range-left>{{ input.minStep }}</ion-label>
+                <ion-label range-right>{{ input.maxStep }}</ion-label>
+              </ion-range>
+            </ion-item>
+            <ion-item *ngIf="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt">
+                <p>Please enter a valid value.</p>
+                <p>Help: {{ input.help }}</p>
+            </ion-item>
+          </div>
+        </form>
+      </div>
+    </ion-list>
+  </div>
+  <div style="padding-top: 18%; visibility: hidden;">
+  </div>
+  <ion-fab bottom left>
+    <button ion-fab (click)="save()">Send</button>
+  </ion-fab>
 </ion-content>

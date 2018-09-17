@@ -26,13 +26,9 @@ export class FormsPage {
     console.log('ionViewDidLoad FormsPage');
   }
   openForm(title, sections) {
-    var inputs = []
-    if (sections.length > 0) {
-      inputs = sections[0].inputs
-    }
     this.navCtrl.push(IndividualFormPage, {
       title: title,
-      inputs: inputs
+      sections: sections
     })
   }
 

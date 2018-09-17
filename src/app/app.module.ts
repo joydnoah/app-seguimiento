@@ -16,6 +16,7 @@ import { BatteryStatus } from '@ionic-native/battery-status';
 import { Device } from '@ionic-native/device';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP } from '@ionic-native/http';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { HTTP } from '@ionic-native/http';
     BatteryStatus,
     Device,
     HttpProvider,
-    HTTP
+    HTTP,
+    NativeStorage
   ]
 })
 export class AppModule {}

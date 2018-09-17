@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 import { FormsPage } from '../forms/forms';
 import { GlobalProvider } from '../../providers/global/global';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -7,6 +7,7 @@ import { BatteryStatus } from '@ionic-native/battery-status';
 import { Device } from '@ionic-native/device';
 import { Observable } from 'rxjs';
 import { HttpProvider } from '../../providers/http/http';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 @Component({
   selector: 'page-home',
@@ -17,6 +18,7 @@ export class HomePage {
   password: string;
   formPage: any = FormsPage;
   response: string;
+  name: any;
 
   constructor(
     public navCtrl: NavController,
@@ -24,14 +26,16 @@ export class HomePage {
     private geolocation: Geolocation,
     private batteryStatus: BatteryStatus,
     private device: Device,
-    public http: HttpProvider
+    public http: HttpProvider,
+    private nativeStorage: NativeStorage,
+    private alertCtrl: AlertController
   ) {
-
   }
 
   loginRequest(){
     this.http.getLogin(this.email, this.password)
     .then(data => {
+      this.storeUserData()
       this.global.logedIn = true;
       this.global.serial = this.device.serial;
       this.global.operating_system = this.device.platform;
@@ -44,11 +48,51 @@ export class HomePage {
     })
     .catch(error => {
       console.log(error)
+      this.failLogInAlert()
     });
+  }
+
+  storeUserData() {
+    this.nativeStorage.setItem('user', {
+      email: this.email,
+      password: this.password
+    })
+    .then(
+      () => console.log('Stored item!'),
+      error => console.error('Error storing item', error)
+    );
   }
 
   ionViewDidLoad() {
     this.http.getToken()
+    .then(data => {
+      console.log('======  status token')
+      this.http.token = JSON.parse(data.data)._csrf
+      this.http.token_ready = true
+      this.nativeStorage.getItem('user')
+      .then(
+        data => {
+          this.email = data.email
+          this.password = data.password
+          this.loginRequest()
+        },
+        error => console.error(error)
+      );
+    })
+    .catch(error => {
+      console.log('error token')
+      console.log(error)
+      this.http.error_message = error
+    });
+  }
+
+  failLogInAlert() {
+    let logIn = this.alertCtrl.create({
+      title: 'Log In',
+      message: 'You have entered an invalid username or password',
+      buttons: ['Dismiss']
+    });
+    logIn.present();
   }
 
   getToOtherPage() {

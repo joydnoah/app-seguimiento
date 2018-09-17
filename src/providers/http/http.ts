@@ -26,17 +26,7 @@ export class HttpProvider {
     console.log('Hello HttpProvider Provider');
   }
   getToken() {
-    this.http_native.get('http://181.143.188.106/csrfToken', {}, {})
-    .then(data => {
-      console.log('======  status token')
-      this.token = JSON.parse(data.data)._csrf
-      this.token_ready = true
-    })
-    .catch(error => {
-      console.log('error token')
-      console.log(error)
-      this.error_message = error
-    });
+    return this.http_native.get('http://181.143.188.106/csrfToken', {}, {})
   }
   getLogin(email, password) {
     return this.http_native.put('http://181.143.188.106/api/v1/entrance/login', {

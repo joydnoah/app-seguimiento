@@ -89,4 +89,5 @@
     <plugin name="cordova-plugin-advanced-http" spec="^2.0.1" />
     <plugin name="cordova-plugin-app-version" spec="^0.1.9" />
     <engine name="android" spec="7.0.0" />
+    <plugin name="cordova-plugin-nativestorage" spec="^2.3.2" />
 </widget>
