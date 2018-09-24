@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { GlobalProvider } from '../../providers/global/global';
-import { IndividualFormPage } from '../individual-form/individual-form';
+import { RoutesPage } from '../../pages/routes/routes';
 
 /**
  * Generated class for the FormsPage page.
@@ -25,10 +25,11 @@ export class FormsPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad FormsPage');
   }
-  openForm(title, sections) {
-    this.navCtrl.push(IndividualFormPage, {
+  openForm(title, sections, routes) {
+    this.navCtrl.push(RoutesPage, {
       title: title,
-      sections: sections
+      sections: sections,
+      routes: routes
     })
   }
 

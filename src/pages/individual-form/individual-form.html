@@ -14,6 +14,11 @@
 
 
 <ion-content padding>
+  <div>
+    <h1>
+      Punto: {{ point.name }}
+    </h1>
+  </div>
   <div *ngFor="let section of formSections; let i = index">
     <h1>
       {{ section.name }}
@@ -25,56 +30,90 @@
       <div>
         <form [formGroup]="formSectionsControllers[i].controller">
           <div *ngFor="let input of section.inputs; let n = index">
-            <ion-item *ngIf="input.inputType === 'text'">
+            <!-- <div>{{ formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].status }}</div> -->
+            <ion-item outline *ngIf="input.inputType === 'text'">
               <ion-label floating>{{ input.label }}</ion-label>
               <ion-input [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" type="text" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt"></ion-input>
             </ion-item>
-            <ion-item *ngIf="input.inputType === 'textarea'">
+            <ion-item outline *ngIf="input.inputType === 'textarea'">
               <ion-label floating>{{ input.label }}</ion-label>
               <ion-textarea [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" type="text" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt"></ion-textarea>
             </ion-item>
-            <ion-item *ngIf="input.inputType === 'e-mail'">
+            <ion-item outline *ngIf="input.inputType === 'e-mail'">
               <ion-label floating>{{ input.label }}</ion-label>
               <ion-input [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" type="email" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt"></ion-input>
             </ion-item>
-            <ion-item *ngIf="input.inputType === 'number' || input.inputType === 'money'">
+            <ion-item outline *ngIf="input.inputType === 'number' || input.inputType === 'money'">
               <ion-label floating>{{ input.label }}</ion-label>
               <ion-input [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" [min]="input.minValue" [max]="input.maxValue" type="number" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt"></ion-input>
             </ion-item>
-            <ion-item *ngIf="input.inputType === 'cellphone'">
+            <ion-item outline *ngIf="input.inputType === 'address'">
+              <ion-label stacked>{{ input.label }}</ion-label>
+              <ion-input placeholder="Ej: CR 12c # 12 - 36" pattern="^(CLL|CR) [0-9]*([a-z]|) (#) [0-9]*([a-z]|) (-) [0-9]*$" [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" type="text" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt"></ion-input>
+            </ion-item>
+            <ion-item outline *ngIf="input.inputType === 'cellphone'">
               <ion-label floating>{{ input.label }}</ion-label>
               <ion-input [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" type="tel" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt"></ion-input>
             </ion-item>
-            <ion-item *ngIf="input.inputType === 'only-one'">
+            <ion-item style="border-bottom: 1px solid lightgrey;" outline *ngIf="input.inputType === 'date'">
+              <ion-label floating>{{ input.label }}</ion-label>
+              <ion-datetime [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt" displayFormat="MM/DD/YYYY"></ion-datetime>
+            </ion-item>
+            <ion-item style="border-bottom: 1px solid grey;" outline *ngIf="input.inputType === 'date-hour'">
+              <ion-label floating>{{ input.label }}</ion-label>
+              <ion-datetime [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt" displayFormat="MM/DD/YYYY HH:mm"></ion-datetime>
+            </ion-item>
+            <ion-item style="border-bottom: 1px solid grey;" outline *ngIf="input.inputType === 'hour'">
+              <ion-label floating>{{ input.label }}</ion-label>
+              <ion-datetime [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt" displayFormat="HH:mm"></ion-datetime>
+            </ion-item>
+            <ion-item style="border-bottom: 1px solid grey;" outline *ngIf="input.inputType === 'only-one'">
               <ion-label floating>{{ input.label }}</ion-label>
               <ion-select [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" type="text" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt">
                 <ion-option *ngFor="let value of input.values" [value]="value.key">{{ value.value }}</ion-option>
               </ion-select>
             </ion-item>
-            <ion-item *ngIf="input.inputType === 'yes-no'">
+            <ion-item style="border-bottom: 1px solid grey;" outline *ngIf="input.inputType === 'yes-no'">
               <ion-label floating>{{ input.label }}</ion-label>
               <ion-select [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" type="text" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt">
                 <ion-option value="yes">{{ input.yesText }}</ion-option>
                 <ion-option value="no">{{ input.noText }}</ion-option>
               </ion-select>
             </ion-item>
-            <ion-item *ngIf="input.inputType === 'gender'">
+            <ion-item style="border-bottom: 1px solid grey;" outline *ngIf="input.inputType === 'gender'">
               <ion-label floating>{{ input.label }}</ion-label>
               <ion-select [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" type="text" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt">
                 <ion-option value="male">Masculino</ion-option>
                 <ion-option value="female">Femenino</ion-option>
               </ion-select>
             </ion-item>
-            <ion-item *ngIf="input.inputType === 'ranking'">
+            <ion-item style="border-bottom: 1px solid grey;" outline *ngIf="input.inputType === 'ranking'">
               <ion-label>{{ input.label }}: {{ formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].value }}</ion-label>
               <ion-range [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt" [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" [min]="input.minStep" [max]="input.maxStep" [step]="input.stepValue">
                 <ion-label range-left>{{ input.minStep }}</ion-label>
                 <ion-label range-right>{{ input.maxStep }}</ion-label>
               </ion-range>
             </ion-item>
+            <ion-item style="border-bottom: 1px solid grey;" outline *ngIf="input.inputType === 'photo'">
+              <p>{{ input.label }}</p>
+              <div>
+                <img [src]="DomSanitizer.bypassSecurityTrustUrl(formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].value)"/>
+              </div>
+              <p>
+                <button ion-button (click)="cameraButton(formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id], 1)">Cam</button>
+                <button ion-button (click)="cameraButton(formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id], 0)">Gallery</button>
+              </p>
+            </ion-item>
+            <ion-item outline *ngIf="input.inputType === 'geolocation'">
+              <ion-label floating>{{ input.label }}</ion-label>
+              <ion-input [readonly]="!input.editableLocation" [formControlName]="'control' + formSectionsControllers[i].inputs[n].id" type="text" [class.invalid]="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt"></ion-input>
+            </ion-item>
             <ion-item *ngIf="!formSectionsControllers[i].controller.controls['control' + formSectionsControllers[i].inputs[n].id].valid && submitAttempt">
                 <p>Please enter a valid value.</p>
                 <p>Help: {{ input.help }}</p>
+            </ion-item>
+            <ion-item style="border-bottom: 1px solid grey;" *ngIf="input.inputType === 'address'">
+                <p>Valid inputs are CLL, CR.</p>
             </ion-item>
           </div>
         </form>

@@ -38,4 +38,17 @@ export class HttpProvider {
   getForms() {
     return this.http_native.get('http://181.143.188.106/api/forms/user', {}, {})
   }
+  postForm(point, formJSON) {
+    return this.http_native.post('http://ptsv2.com/t/uvigj-1537766511/post', {
+      'data': {
+        'point': point,
+        'form': formJSON
+      }
+    }, {})
+  }
+  postCelData(celData) {
+    return this.http_native.post('http://ptsv2.com/t/uvigj-1537766511/post', {
+      'data': celData
+    }, {})
+  }
 }

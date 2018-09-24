@@ -44,6 +44,30 @@ export class HomePage {
       });
       Observable.interval(1000).subscribe(()=>{
         this.global.date = new Date();
+        this.geolocation.getCurrentPosition().then((resp) => {
+          this.global.coordinates = resp.coords
+        }).catch((error) => {
+          console.log('Error getting location', error.message);
+        });
+      });
+      Observable.interval(30000).subscribe(()=>{
+        this.geolocation.getCurrentPosition().then((resp) => {
+          this.global.coordinates = resp.coords
+          let celData = {
+            date: new Date(),
+            battery: this.global.batterylevel,
+            serial: this.global.serial,
+            OS: this.global.operating_system,
+            geo:
+            {
+              lat: resp.coords.latitude,
+              lon: resp.coords.longitude
+            }
+          }
+          this.http.postCelData(celData)
+        }).catch((error) => {
+          console.log('Error getting location', error.message);
+        });
       });
     })
     .catch(error => {

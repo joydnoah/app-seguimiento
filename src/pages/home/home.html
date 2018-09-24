@@ -25,7 +25,7 @@
   </ion-list>
   <div *ngIf="(this.global.logedIn) && this.http.token_ready">
     <h1>Bienvenido!</h1>
-    <p *ngIf="coordinates !== undefined">
+    <p *ngIf="global.coordinates !== undefined">
       Coordenadas: {{global.coordinates.latitude + " , " + global.coordinates.longitude}}
     </p>
     <p>

@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { FormsPage } from '../pages/forms/forms';
+import { RoutesPage } from '../pages/routes/routes';
 import { IndividualFormPage } from '../pages/individual-form/individual-form';
 import { TabsPage } from '../pages/tabs/tabs';
 import { GlobalProvider } from '../providers/global/global';
@@ -17,6 +18,7 @@ import { Device } from '@ionic-native/device';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP } from '@ionic-native/http';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { Camera } from '@ionic-native/camera';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { NativeStorage } from '@ionic-native/native-storage';
     HomePage,
     FormsPage,
     IndividualFormPage,
-    TabsPage
+    TabsPage,
+    RoutesPage
   ],
   imports: [
     BrowserModule,
@@ -37,7 +40,8 @@ import { NativeStorage } from '@ionic-native/native-storage';
     HomePage,
     FormsPage,
     IndividualFormPage,
-    TabsPage
+    TabsPage,
+    RoutesPage
   ],
   providers: [
     StatusBar,
@@ -49,7 +53,8 @@ import { NativeStorage } from '@ionic-native/native-storage';
     Device,
     HttpProvider,
     HTTP,
-    NativeStorage
+    NativeStorage,
+    Camera
   ]
 })
 export class AppModule {}
