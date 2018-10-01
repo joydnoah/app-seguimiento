@@ -35,6 +35,8 @@ export class HomePage {
   loginRequest(){
     this.http.getLogin(this.email, this.password)
     .then(data => {
+      console.log(data.headers)
+      console.log(Object.keys(data.headers))
       this.storeUserData()
       this.global.logedIn = true;
       this.global.serial = this.device.serial;
@@ -47,28 +49,37 @@ export class HomePage {
         this.geolocation.getCurrentPosition().then((resp) => {
           this.global.coordinates = resp.coords
         }).catch((error) => {
-          console.log('Error getting location', error.message);
+          //console.log('Error getting location', error.message);
         });
       });
-      Observable.interval(30000).subscribe(()=>{
-        this.geolocation.getCurrentPosition().then((resp) => {
-          this.global.coordinates = resp.coords
-          let celData = {
-            date: new Date(),
-            battery: this.global.batterylevel,
-            serial: this.global.serial,
-            OS: this.global.operating_system,
-            geo:
-            {
-              lat: resp.coords.latitude,
-              lon: resp.coords.longitude
-            }
+
+      Observable.interval(15000).subscribe(()=>{
+        let celData = {
+          date: new Date(),
+          battery: this.global.batterylevel,
+          serial: this.global.serial,
+          OS: this.global.operating_system,
+          geo:
+          {
+            lat: '0',
+            lon: '0'
           }
-          this.http.postCelData(celData)
-        }).catch((error) => {
-          console.log('Error getting location', error.message);
+        }
+        if (this.global.coordinates !== undefined) {
+          celData.geo.lat = this.global.coordinates.latitude
+          celData.geo.lon = this.global.coordinates.longitude
+        }
+        this.http.postCelData(celData)
+        .then(data => {
+          console.log('success timed post')
+        })
+        .catch(error => {
+          console.log(error)
+          console.log(error.error)
+          console.log(Object.keys(error))
+          console.log('Error timed post')
         });
-      });
+      })
     })
     .catch(error => {
       console.log(error)

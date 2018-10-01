@@ -198,11 +198,29 @@ export class IndividualFormPage {
     else {
         console.log("success!")
         this.formatAnswers()
-        this.http.postForm(this.point, this.formSections)
+        let celData = {
+          date: new Date(),
+          battery: this.global.batterylevel,
+          serial: this.global.serial,
+          OS: this.global.operating_system,
+          geo:
+          {
+            lat: '0',
+            lon: '0'
+          }
+        }
+        if (this.global.coordinates !== undefined) {
+          celData.geo.lat = this.global.coordinates.latitude
+          celData.geo.lon = this.global.coordinates.longitude
+        }
+        this.http.postForm(this.point, celData, this.formSections)
         .then(data => {
           this.alertModal('Success', 'The form was sent successfully.', 'Dismiss')
         })
         .catch(error => {
+          console.log(error)
+          console.log(error.error)
+          console.log(Object.keys(error))
           this.alertModal('Error', error.message, 'Dismiss')
         });
     }

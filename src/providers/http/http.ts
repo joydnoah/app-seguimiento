@@ -28,6 +28,11 @@ export class HttpProvider {
   getToken() {
     return this.http_native.get('http://181.143.188.106/csrfToken', {}, {})
   }
+  getCookie() {
+    let cookie = this.http_native.getCookieString('http://181.143.188.106/')
+    console.log("======== cookie")
+    console.log(cookie)
+  }
   getLogin(email, password) {
     return this.http_native.put('http://181.143.188.106/api/v1/entrance/login', {
       'emailAddress': email,
@@ -38,17 +43,28 @@ export class HttpProvider {
   getForms() {
     return this.http_native.get('http://181.143.188.106/api/forms/user', {}, {})
   }
-  postForm(point, formJSON) {
-    return this.http_native.post('http://ptsv2.com/t/uvigj-1537766511/post', {
-      'data': {
-        'point': point,
-        'form': formJSON
-      }
-    }, {})
+  postForm(place, celData, formJSON) {
+    //return this.http_native.post('http://181.143.188.106/api/forms/user',
+    let headers = {
+      'Accept': 'application/json',
+      'content-type': 'application/json; charset=UTF-8',
+      'X-CSRF-Token': this.token
+    }
+    let data = {
+      'place': place,
+      'celData': celData,
+      'form': formJSON,
+    }
+    this.http_native.setDataSerializer( "json" );
+    return this.http_native.post('http://181.143.188.106/api/forms/user', data, headers)
+    //return this.http_native.post('http://ptsv2.com/t/uvigj-1537766511/post', data, headers)
   }
   postCelData(celData) {
-    return this.http_native.post('http://ptsv2.com/t/uvigj-1537766511/post', {
-      'data': celData
-    }, {})
+    this.http_native.setDataSerializer( "json" );
+    return this.http_native.post('http://181.143.188.106/api/user/geo',
+    celData,
+    {
+      'X-CSRF-Token': this.token
+    })
   }
 }
