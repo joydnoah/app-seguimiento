@@ -18,13 +18,20 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: 'individual-form.html',
 })
 export class IndividualFormPage {
-  formTitle: string;
+  formData: any;
   formSections: any[]=[];
   formSectionsControllers: any[]=[];
   formAnswers: any[] = [];
   validations: any[];
   submitAttempt: boolean;
   point: any;
+  streets: string[]=[
+    "Calle",
+    "Carrera",
+    "Transversal",
+    "Diagonal",
+    "Avenida"
+  ]
 
   constructor(
     public navCtrl: NavController,
@@ -36,7 +43,7 @@ export class IndividualFormPage {
     private camera: Camera,
     private DomSanitizer: DomSanitizer
   ) {
-    this.formTitle = navParams.get("title")
+    this.formData = navParams.get("formData")
     this.formSections = navParams.get("sections")
     this.point = navParams.get("point")
     for (var n=0; n < this.formSections.length; n++) {
@@ -57,12 +64,11 @@ export class IndividualFormPage {
         }
         if (
           this.formSectionsControllers[n].inputs[i].inputType === 'only-one' ||
+          this.formSectionsControllers[n].inputs[i].inputType === 'multiple' ||
           this.formSectionsControllers[n].inputs[i].inputType === 'yes-no' ||
           this.formSectionsControllers[n].inputs[i].inputType === 'gender' ||
           this.formSectionsControllers[n].inputs[i].inputType === 'ranking' ||
-          this.formSectionsControllers[n].inputs[i].inputType === 'photo' ||
           this.formSectionsControllers[n].inputs[i].inputType === 'geolocation' ||
-          this.formSectionsControllers[n].inputs[i].inputType === 'address' ||
           this.formSectionsControllers[n].inputs[i].inputType === 'hour' ||
           this.formSectionsControllers[n].inputs[i].inputType === 'date-hour' ||
           this.formSectionsControllers[n].inputs[i].inputType === 'date') {
@@ -75,6 +81,7 @@ export class IndividualFormPage {
     }
     for (var n = 0; n < this.formSectionsControllers.length; n++) {
       for (var i = 0; i < this.formSectionsControllers[n].inputs.length; i++) {
+        this.formSections[n].inputs[i].invalid = false
         if (this.formSectionsControllers[n].inputs[i].inputType === 'geolocation') {
           if (this.global.coordinates !== undefined) {
             this.formSectionsControllers[n].controller.controls['control' + this.formSectionsControllers[n].inputs[i].id].value = this.global.coordinates.latitude + " , " + this.global.coordinates.longitude
@@ -127,11 +134,20 @@ export class IndividualFormPage {
     console.log('ionViewDidLoad IndividualFormPage');
   }
 
-  alertModal(tittle, msg, button) {
+  alertModal(tittle, msg, button, goBack) {
     let alert = this.alertCtrl.create({
       title: tittle,
       message: msg,
-      buttons: [button]
+      buttons: [{
+        text: button,
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+          if (goBack) {
+            this.goback()
+          }
+        }
+      }]
     });
     alert.present();
   }
@@ -139,7 +155,10 @@ export class IndividualFormPage {
   formatAnswers() {
     for (var n=0; n < this.formSections.length; n++) {
       for (var i=0; i < this.formSections[n].inputs.length; i++) {
-        this.formSections[n].inputs[i].answer = this.formSectionsControllers[n].controller.controls['control' + this.formSectionsControllers[n].inputs[i].id].value
+        if (!(this.formSectionsControllers[n].inputs[i].inputType === 'address' ||
+          this.formSectionsControllers[n].inputs[i].inputType === 'photo')) {
+            this.formSections[n].inputs[i].answer = JSON.stringify(this.formSectionsControllers[n].controller.controls['control' + this.formSectionsControllers[n].inputs[i].id].value)
+          }
       }
     }
   }
@@ -157,7 +176,7 @@ export class IndividualFormPage {
       correctOrientation: true
     };
     this.camera.getPicture(options).then(imageData => {
-      variable.value = 'data:image/jpeg;base64,' + imageData;
+      variable.answer = 'data:image/jpeg;base64,' + imageData;
     })
   }
 
@@ -185,15 +204,99 @@ export class IndividualFormPage {
       }
     }
   }
-  save(){
+
+  setStreet (input, event, value) {
+    if (value == "street_name") {
+      input[value] = event
+    } else {
+      input[value] = event._value
+    }
+    input.answer = input.street_name + " " + input.street + " #" + input.number1 + " " + input.number2
+  }
+
+  validateExtraInputs() {
+    console.log("VALIDATE EXTRA")
     var validation = true;
-    this.submitAttempt = true;
+    for (var n=0; n < this.formSections.length; n++) {
+      for (var i=0; i < this.formSections[n].inputs.length; i++) {
+        if (this.formSectionsControllers[n].inputs[i].inputType === 'photo') {
+            if (this.formSectionsControllers[n].inputs[i].isRequired) {
+              if (this.formSectionsControllers[n].inputs[i].answer == '' ||
+              this.formSectionsControllers[n].inputs[i].answer == null ||
+              this.formSectionsControllers[n].inputs[i].answer == undefined) {
+                this.formSections[n].inputs[i].invalid = true
+                validation = validation && false
+              }
+            }
+        }
+        if (this.formSectionsControllers[n].inputs[i].inputType === 'address') {
+            if (this.formSectionsControllers[n].inputs[i].isRequired) {
+              if (this.formSectionsControllers[n].inputs[i].answer == '' ||
+              this.formSectionsControllers[n].inputs[i].answer == null ||
+              this.formSectionsControllers[n].inputs[i].answer == undefined ||
+              this.formSectionsControllers[n].inputs[i].street_name == undefined ||
+              this.formSectionsControllers[n].inputs[i].street == undefined ||
+              this.formSectionsControllers[n].inputs[i].number1 == undefined ||
+              this.formSectionsControllers[n].inputs[i].number2 == undefined) {
+                this.formSections[n].inputs[i].invalid = true
+                validation = validation && false
+              }
+            } else {
+              var testUndefined = function(element) {
+                return element === undefined;
+              };
+              var toTest = [
+                this.formSectionsControllers[n].inputs[i].street_name,
+                this.formSectionsControllers[n].inputs[i].street,
+                this.formSectionsControllers[n].inputs[i].number1,
+                this.formSectionsControllers[n].inputs[i].number2
+              ]
+              if (!toTest.every(testUndefined) && toTest.some(testUndefined)) {
+                this.formSections[n].inputs[i].invalid = true
+                validation = validation && false
+              }
+            }
+        }
+      }
+    }
+    console.log(validation)
+    return validation
+  }
+  validateNormalInputs() {
+    console.log("VALIDATE NORMAL")
+    var validation = true;
     for (var n = 0; n < this.formSectionsControllers.length; n++) {
       validation = validation && this.formSectionsControllers[n].controller.valid
     }
+    return validation
+  }
+  setCompletedFormData() {
+    var alreadyOnList = false;
+    for (var i = 0; i < this.global.completedForms.length; i++) {
+      if (this.global.completedForms[i].formId == this.formData.routeGroups[0].routes[0].id) {
+        this.global.completedForms[i].pointId.push(
+          this.point.id
+        )
+        alreadyOnList = alreadyOnList || true
+      }
+    }
+    if (!alreadyOnList) {
+      this.global.completedForms.push(
+        {
+          formId: this.formData.routeGroups[0].routes[0].id,
+          pointId: [this.point.id]
+        }
+      )
+    }
+  }
+  save(){
+    this.submitAttempt = true;
+    var validation = true;
+    validation = this.validateNormalInputs() && true && validation
+    validation = this.validateExtraInputs() && true && validation
     if(!validation){
         console.log("fail")
-        this.alertModal('Not valid form', 'some inputs may be wrong, plese verify them and try again.', 'Dismiss')
+        this.alertModal('Formulario invalido', 'Algunos campos pueden estar mal, por favor verifíquelos e intente de nuevo.', 'Cerrar', false)
     }
     else {
         console.log("success!")
@@ -215,15 +318,31 @@ export class IndividualFormPage {
         }
         this.http.postForm(this.point, celData, this.formSections)
         .then(data => {
-          this.alertModal('Success', 'The form was sent successfully.', 'Dismiss')
+          if (this.formData.routeGroups !== undefined) {
+            this.setCompletedFormData()
+            this.global.saveCompletedFormData()
+            this.global.setForms()
+          }
+          this.alertModal('Exito', 'El formulario ha sido enviado con éxito.', 'Cerrar', true)
         })
         .catch(error => {
           console.log(error)
           console.log(error.error)
-          console.log(Object.keys(error))
-          this.alertModal('Error', error.message, 'Dismiss')
+          this.global.pendingForms.push({
+            place: this.point,
+            celData: celData,
+            formJSON: this.formSections
+          })
+          this.setCompletedFormData()
+          this.global.saveCompletedFormData()
+          this.global.setForms()
+          this.global.savePendingForms()
+          this.alertModal('Error', error.message, 'Cerrar', true)
         });
     }
   }
-
+  goback() {
+    this.navCtrl.pop();
+    console.log('Click on button Test Console Log');
+  }
 }

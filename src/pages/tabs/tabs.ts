@@ -44,8 +44,8 @@ export class TabsPage {
 
   logOutAlert() {
     let logOut = this.alertCtrl.create({
-      title: 'Log Out',
-      message: 'Do you want to log out?',
+      title: 'Cerrar Sesión',
+      message: '¿Desea cerrar sesión?',
       buttons: [
         {
           text: 'No',
@@ -55,7 +55,7 @@ export class TabsPage {
           }
         },
         {
-          text: 'Yes',
+          text: 'Si',
           handler: () => {
             this.logOut()
           }

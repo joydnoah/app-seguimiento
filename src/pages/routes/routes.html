@@ -15,12 +15,12 @@
 
 <ion-content padding>
   <div *ngFor="let routes of formRoutes">
-    <span>{{routes.name | uppercase}}</span>
+    <span>Grupo de rutas: {{routes.name | uppercase}}</span>
     <div *ngFor="let route of routes.routes">
-      <span>{{route.name | uppercase}}</span>
+      <span>Ruta: {{route.name | uppercase}}</span>
       <ion-list>
         <ion-item detail-push *ngFor="let place of route.places" (click)="openForm(place)">
-          <span>{{place.name | uppercase}}</span>
+          <span>Punto: {{place.name | uppercase}}</span>
         </ion-item>
       </ion-list>
     </div>

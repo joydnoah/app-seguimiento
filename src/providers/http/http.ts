@@ -14,6 +14,8 @@ export class HttpProvider {
   token: any;
   token_ready: boolean=false;
   error_message: any;
+  networkConnection: boolean = true;
+
   constructor(
     public http: HttpClient,
     private http_native: HTTP,
@@ -57,7 +59,7 @@ export class HttpProvider {
     }
     this.http_native.setDataSerializer( "json" );
     return this.http_native.post('http://181.143.188.106/api/forms/user', data, headers)
-    //return this.http_native.post('http://ptsv2.com/t/uvigj-1537766511/post', data, headers)
+    //return this.http_native.post('http://ptsv2.com/t/uvigj-1537766511/post', data, {})
   }
   postCelData(celData) {
     this.http_native.setDataSerializer( "json" );

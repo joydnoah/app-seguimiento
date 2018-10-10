@@ -7,10 +7,18 @@
 </ion-header>
 
 <ion-content padding>
-  <p>
+  <!--<p>
     {{ this.http.error_message }}
   </p>
-  <ion-list *ngIf="(!this.global.logedIn) && this.http.token_ready">
+  <div>
+    {{ this.global.completedForms | json }}
+  </div>-->
+  <div *ngIf="!this.http.networkConnection || this.network.type === 'none'">
+    <h1>
+      En estos momentos no hay una conexión a internet
+    </h1>
+  </div>
+  <ion-list *ngIf="(!this.global.logedIn) && this.http.token_ready && this.http.networkConnection && this.network.type !== 'none'">
     <ion-item>
       <ion-label color="primary" floating>E-mail</ion-label>
       <ion-input [(ngModel)]="email"></ion-input>
@@ -23,22 +31,16 @@
       <button ion-button (click)="loginRequest()">Login</button>
     </p>
   </ion-list>
-  <div *ngIf="(this.global.logedIn) && this.http.token_ready">
-    <h1>Bienvenido!</h1>
-    <p *ngIf="global.coordinates !== undefined">
-      Coordenadas: {{global.coordinates.latitude + " , " + global.coordinates.longitude}}
-    </p>
-    <p>
-      Operating system: {{ global.operating_system }}
-    </p>
-    <p>
-      Serial: {{ global.serial }}
-    </p>
-    <p>
-      Date: {{ global.date }}
-    </p>
-    <p>
-      Battery: {{ global.batterylevel }}
-    </p>
+  <div *ngIf="(this.global.logedIn) && this.http.token_ready && this.http.networkConnection && this.network.type !== 'none'">
+    <div *ngIf="global.forms.length < 1">
+      <h1>
+        Actualmente no hay formularios pendientes
+      </h1>
+    </div>
+    <ion-list *ngIf="global.forms.length >= 1">
+      <ion-item detail-push *ngFor="let form of global.forms" (click)="openForm(form, form.bodySections, form.routeGroups)">
+        <span>{{form.name | uppercase}}</span>
+      </ion-item>
+    </ion-list>
   </div>
 </ion-content>

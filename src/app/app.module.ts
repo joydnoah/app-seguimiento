@@ -19,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HTTP } from '@ionic-native/http';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Camera } from '@ionic-native/camera';
+import { Network } from '@ionic-native/network';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { Camera } from '@ionic-native/camera';
     HttpProvider,
     HTTP,
     NativeStorage,
-    Camera
+    Camera,
+    Network
   ]
 })
 export class AppModule {}

@@ -1,5 +1,4 @@
 <ion-tabs>
   <ion-tab [root]="homePage" tabTitle="Home" tabIcon="home"></ion-tab>
-  <ion-tab [show]="global.logedIn" [root]="formPage" tabTitle="Forms" tabIcon="clipboard" (ionSelect)="updateForms()"></ion-tab>
-  <ion-tab [show]="global.logedIn" [root]="homePage" tabTitle="LogOut" tabIcon="log-out" (ionSelect)="logOutAlert()"></ion-tab>
+  <ion-tab [show]="global.logedIn" tabTitle="Cerrar Sesión" tabIcon="log-out" (ionSelect)="logOutAlert()"></ion-tab>
 </ion-tabs>

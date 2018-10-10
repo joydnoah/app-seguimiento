@@ -13,7 +13,7 @@ import { IndividualFormPage } from '../individual-form/individual-form';
   templateUrl: 'routes.html',
 })
 export class RoutesPage {
-  formTitle: string;
+  formData: any;
   formSections: any[]=[];
   formRoutes: any[]=[];
 
@@ -22,16 +22,27 @@ export class RoutesPage {
     public navParams: NavParams
   ) {
     this.formRoutes = navParams.get("routes")
-    this.formTitle = navParams.get("title")
+    this.formData = navParams.get("formData")
     this.formSections = navParams.get("sections")
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     console.log('ionViewDidLoad RoutesPage');
+    var empty = true
+    for (var i = 0; i < this.formRoutes.length; i++) {
+      for (var n = 0; n < this.formRoutes[i].routes.length; n++) {
+        console.log(this.formRoutes[i].routes[n].places.length)
+        empty = empty && (this.formRoutes[i].routes[n].places.length < 1)
+      }
+    }
+    if (empty) {
+      this.navCtrl.popToRoot();
+    }
   }
+
   openForm(point) {
     this.navCtrl.push(IndividualFormPage, {
-      title: this.formTitle,
+      formData: this.formData,
       sections: this.formSections,
       point: point
     })
