@@ -20,6 +20,7 @@ import { HTTP } from '@ionic-native/http';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Camera } from '@ionic-native/camera';
 import { Network } from '@ionic-native/network';
+import { SelectSearchableModule } from 'ionic-select-searchable';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { Network } from '@ionic-native/network';
   imports: [
     BrowserModule,
     HttpClientModule,
+    SelectSearchableModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],

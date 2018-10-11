@@ -47,6 +47,7 @@ export class HttpProvider {
   }
   postForm(place, celData, formJSON) {
     //return this.http_native.post('http://181.143.188.106/api/forms/user',
+    console.log("POSTING DATA!!")
     let headers = {
       'Accept': 'application/json',
       'content-type': 'application/json; charset=UTF-8',

@@ -102,48 +102,43 @@
                 <ion-label range-right>{{ input.maxStep }}</ion-label>
               </ion-range>
             </ion-item>
-            <div *ngIf="input.inputType === 'address'">
-                <ion-grid [class.invalid]="input.invalid">
-                  <p *ngIf="!input.isRequired">{{ input.label }}</p>
-                  <p *ngIf="input.isRequired">{{ input.label }} *</p>
-                  <ion-row>
-                    <ion-col>
-                      <ion-item no-lines>
-                        <ion-label fixed>Vía principal</ion-label>
-                        <ion-select interface="popover">
-                          <ion-option (ionSelect)='setStreet(input, $event, "street_name")' *ngFor="let street of streets" [value]="street">{{ street }}</ion-option>
-                        </ion-select>
-                      </ion-item>
-                    </ion-col>
-                  </ion-row>
-                  <ion-row>
-                    <ion-col>
-                      <ion-item>
-                        <ion-input pattern="^[0-9]*([a-z]|)$" placeholder="123a" (ionChange)='setStreet(input, $event, "street")'></ion-input>
-                      </ion-item>
-                    </ion-col>
-                    <ion-col>
-                      <ion-item>
-                        <ion-label>#</ion-label>
-                        <ion-input pattern="^[0-9]*([a-z]|)$" placeholder="123" (ionChange)='setStreet(input, $event, "number1")'></ion-input>
-                      </ion-item>
-                    </ion-col>
-                    <ion-col col-2>
-                      <ion-item no-lines>
-                        -
-                      </ion-item>
-                    </ion-col>
-                    <ion-col>
-                      <ion-item>
-                        <ion-input pattern="^[0-9]*([a-z]|)$" placeholder="123" (ionChange)='setStreet(input, $event, "number2")'></ion-input>
-                      </ion-item>
-                    </ion-col>
-                  </ion-row>
-                  <p>
-                    Direccion: {{ input.answer }}
-                  </p>
-                </ion-grid>
-              </div>
+            <div *ngIf="input.inputType === 'address'" [class.invalid]="input.invalid">
+              <p *ngIf="!input.isRequired">{{ input.label }}</p>
+              <p *ngIf="input.isRequired">{{ input.label }} *</p>
+              <p>Direccion: {{ input.answer }}</p>
+              <ion-item no-line>
+                <ion-label>Nomenclatura</ion-label>
+                <select-searchable
+                    item-content
+                    [items]="streets"
+                    itemValueField="id"
+                    itemTextField="name"
+                    [canSearch]="true"
+                    (onChange)="streetChange(input, $event)">
+                </select-searchable>
+              </ion-item>
+              <ion-item no-line>
+                <ion-label>Letras</ion-label>
+                <select-searchable
+                    item-content
+                    [items]="letters"
+                    itemValueField="id"
+                    itemTextField="name"
+                    [canSearch]="true"
+                    (onChange)="streetChange(input, $event)">
+                </select-searchable>
+              </ion-item>
+              <ion-item no-line>
+                <ion-label>Digitos</ion-label>
+                <ion-select (click)="repeatDigit(input)" (ionCancel)="cancelLast(input)" (ionChange)="addDigit(input, $event)">
+                  <ion-option *ngFor="let digit of digits" [value]="digit.name">{{ digit.name }}</ion-option>
+                </ion-select>
+              </ion-item>
+              <ion-item>
+                <button ion-button (click)="cancelLast(input)">Cancelar ultima</button>
+                <button ion-button color="secondary" (click)="clear(input)">Limpiar</button>
+              </ion-item>
+            </div>
             <ion-item style="border-bottom: 1px solid grey;" outline *ngIf="input.inputType === 'photo'">
               <div [class.invalid]="input.invalid">
                 <p *ngIf="!input.isRequired">{{ input.label }}</p>
