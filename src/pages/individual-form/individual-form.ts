@@ -288,6 +288,7 @@ export class IndividualFormPage {
       for (var i=0; i < this.formSections[n].inputs.length; i++) {
         if (this.formSectionsControllers[n].inputs[i].inputType === 'photo' || this.formSectionsControllers[n].inputs[i].inputType === 'address') {
             this.formSectionsControllers[n].inputs[i].answer = null
+            this.formSectionsControllers[n].inputs[i].address_list = []
         }
       }
     }
