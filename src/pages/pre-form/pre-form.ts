@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { IndividualFormPage } from '../individual-form/individual-form';
-import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
+// import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
 
 /**
  * Generated class for the PreFormPage page.
@@ -22,8 +22,9 @@ export class PreFormPage {
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams,
-    private launchNavigator: LaunchNavigator) {
+    // private launchNavigator: LaunchNavigator,
+    public navParams: NavParams
+  ) {
     this.formData = navParams.get("formData")
     this.formSections = navParams.get("sections")
     this.point = navParams.get("point")
@@ -35,14 +36,18 @@ export class PreFormPage {
   }
 
   googleMaps (coordinates) {
-    let options: LaunchNavigatorOptions = {
-      app: this.launchNavigator.APP.GOOGLE_MAPS
-    };
-    this.launchNavigator.navigate(coordinates, options)
-    .then(
-      success => console.log('Launched navigator'),
-      error => console.log('Error launching navigator', error)
-    );
+    // let options: LaunchNavigatorOptions = {
+    //   app: this.launchNavigator.APP.GOOGLE_MAPS
+    // };
+    // this.launchNavigator.navigate(coordinates, options)
+    // .then(
+    //   success => console.log('Launched navigator'),
+    //   error => console.log('Error launching navigator', error)
+    // )
+    // .catch(
+    //   error => console.log(error)
+    // );
+    console.log("A")
   }
 
 
