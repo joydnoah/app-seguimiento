@@ -130,9 +130,7 @@
               </ion-item>
               <ion-item no-line>
                 <ion-label>Digitos</ion-label>
-                <ion-select (click)="repeatDigit(input)" (ionCancel)="cancelLast(input)" (ionChange)="addDigit(input, $event)">
-                  <ion-option *ngFor="let digit of digits" [value]="digit.name">{{ digit.name }}</ion-option>
-                </ion-select>
+                <ion-input type="tel" (ionChange)="addDigit(input, $event)"></ion-input>
               </ion-item>
               <ion-item>
                 <button ion-button (click)="cancelLast(input)">Cancelar ultima</button>

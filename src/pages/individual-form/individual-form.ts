@@ -32,7 +32,6 @@ export class IndividualFormPage {
   point: any;
   streets: Coding[];
   letters: Coding[];
-  digits: Coding[];
 
   constructor(
     public navCtrl: NavController,
@@ -121,15 +120,23 @@ export class IndividualFormPage {
   }
 
   addDigit(input, event) {
-    this.cancelLast(input)
-    input.address_list.push(event)
+    var validate_number = ""
+    if (input.address_list.length > 0) {
+      validate_number = input.address_list[input.address_list.length - 1].replace(/\D/g,'');
+    }
+    var number = event._value.replace(/\D/g,'');
+    if (validate_number === "") {
+      input.address_list.push(number)
+    } else {
+      this.cancelLast(input)
+      input.address_list.push(number)
+    }
     input.answer = input.address_list.join("")
   }
 
   getSelectors () {
     var streets = []
     var letters = []
-    var digits = []
     for (var i = 0; i < this.global.streets.length; i++) {
       streets.push(
         {
@@ -146,17 +153,8 @@ export class IndividualFormPage {
         }
       )
     }
-    for (var i = 0; i < 10; i++) {
-      digits.push(
-        {
-          id: i,
-          name: i.toString()
-        }
-      )
-    }
     this.streets = streets
     this.letters = letters
-    this.digits = digits
   }
 
   createTextValidatorCompose(input) {
@@ -224,7 +222,8 @@ export class IndividualFormPage {
       for (var i=0; i < this.formSections[n].inputs.length; i++) {
         if (!(this.formSectionsControllers[n].inputs[i].inputType === 'address' ||
           this.formSectionsControllers[n].inputs[i].inputType === 'photo')) {
-            this.formSections[n].inputs[i].answer = JSON.stringify(this.formSectionsControllers[n].controller.controls['control' + this.formSectionsControllers[n].inputs[i].id].value)
+            this.formSections[n].inputs[i].answer = String(this.formSectionsControllers[n].controller.controls['control' + this.formSectionsControllers[n].inputs[i].id].value)
+            console.log(this.formSections[n].inputs[i].answer)
           }
       }
     }
@@ -401,7 +400,7 @@ export class IndividualFormPage {
     }
   }
   goback() {
-    this.navCtrl.pop();
+    this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length()-3));
     console.log('Click on button Test Console Log');
   }
 }

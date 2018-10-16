@@ -10,6 +10,7 @@ import { FormsPage } from '../pages/forms/forms';
 import { RoutesPage } from '../pages/routes/routes';
 import { IndividualFormPage } from '../pages/individual-form/individual-form';
 import { TabsPage } from '../pages/tabs/tabs';
+import { PreFormPage } from '../pages/pre-form/pre-form';
 import { GlobalProvider } from '../providers/global/global';
 import { HttpProvider } from '../providers/http/http';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -21,6 +22,7 @@ import { NativeStorage } from '@ionic-native/native-storage';
 import { Camera } from '@ionic-native/camera';
 import { Network } from '@ionic-native/network';
 import { SelectSearchableModule } from 'ionic-select-searchable';
+import { LaunchNavigator } from '@ionic-native/launch-navigator';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { SelectSearchableModule } from 'ionic-select-searchable';
     FormsPage,
     IndividualFormPage,
     TabsPage,
-    RoutesPage
+    RoutesPage,
+    PreFormPage
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import { SelectSearchableModule } from 'ionic-select-searchable';
     FormsPage,
     IndividualFormPage,
     TabsPage,
-    RoutesPage
+    RoutesPage,
+    PreFormPage
   ],
   providers: [
     StatusBar,
@@ -58,7 +62,8 @@ import { SelectSearchableModule } from 'ionic-select-searchable';
     HTTP,
     NativeStorage,
     Camera,
-    Network
+    Network,
+    LaunchNavigator
   ]
 })
 export class AppModule {}

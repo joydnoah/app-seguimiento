@@ -132,12 +132,20 @@ export class GlobalProvider {
                 var found = this.completedForms[n].pointId.find(function(element) {
                   return element == id;
                 });
-                if (!found) {
-                  places.push(this.cacheForms[i].routeGroups[0].routes[0].places[j])
+                if (this.cacheForms[i].routeGroups[0].routes[0].places[j].completed !== undefined) {
+                  if (found) {
+                    this.cacheForms[i].routeGroups[0].routes[0].places[j].completed = true
+                  } else {
+                    this.cacheForms[i].routeGroups[0].routes[0].places[j].completed = false || this.cacheForms[i].routeGroups[0].routes[0].places[j].completed
+                  }
+                } else {
+                  if (found) {
+                    this.cacheForms[i].routeGroups[0].routes[0].places[j].completed = true
+                  } else {
+                    this.cacheForms[i].routeGroups[0].routes[0].places[j].completed = false
+                  }
                 }
-              }
-              if (places.length < 1) {
-                completed = true
+                places.push(this.cacheForms[i].routeGroups[0].routes[0].places[j])
               }
               this.cacheForms[i].routeGroups[0].routes[0].places = places
             }

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { IndividualFormPage } from '../individual-form/individual-form';
+import { NavController, NavParams } from 'ionic-angular';
+import { PreFormPage } from '../pre-form/pre-form';
+import { GlobalProvider } from '../../providers/global/global';
+import * as moment from 'moment'
+import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
 /**
  * Generated class for the RoutesPage page.
  *
@@ -16,10 +19,13 @@ export class RoutesPage {
   formData: any;
   formSections: any[]=[];
   formRoutes: any[]=[];
+  date: string;
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams
+    public global: GlobalProvider,
+    public navParams: NavParams,
+    private launchNavigator: LaunchNavigator
   ) {
     this.formRoutes = navParams.get("routes")
     this.formData = navParams.get("formData")
@@ -28,10 +34,10 @@ export class RoutesPage {
 
   ionViewWillEnter() {
     console.log('ionViewDidLoad RoutesPage');
+    this.date = moment(this.global.date).format('YYYY/MM/DD')
     var empty = true
     for (var i = 0; i < this.formRoutes.length; i++) {
       for (var n = 0; n < this.formRoutes[i].routes.length; n++) {
-        console.log(this.formRoutes[i].routes[n].places.length)
         empty = empty && (this.formRoutes[i].routes[n].places.length < 1)
       }
     }
@@ -40,11 +46,45 @@ export class RoutesPage {
     }
   }
 
-  openForm(point) {
-    this.navCtrl.push(IndividualFormPage, {
-      formData: this.formData,
-      sections: this.formSections,
-      point: point
-    })
+  googleMaps (formRoutes) {
+    let pointsCoordinates = []
+    for (var i = 0; i < formRoutes[0].routes[0].places.length; i++) {
+      pointsCoordinates.push(formRoutes[0].routes[0].places[i].coordinates)
+    }
+    let options: LaunchNavigatorOptions = {
+      app: this.launchNavigator.APP.GOOGLE_MAPS
+    };
+    this.launchNavigator.navigate(pointsCoordinates.join("+to:"), options)
+    .then(
+      success => console.log('Launched navigator'),
+      error => console.log('Error launching navigator', error)
+    );
+  }
+
+  compareDate (date) {
+    return date === this.date
+  }
+
+  toSoon (date) {
+    let dateObject = moment(String(date), "YYYY/MM/DD").toDate();
+    let todayDate = moment(this.date, "YYYY/MM/DD").toDate();
+    return dateObject > todayDate
+  }
+
+  toLate (date) {
+    let dateObject = moment(String(date), "YYYY/MM/DD").toDate().getTime();
+    let todayDate = moment(this.date, "YYYY/MM/DD").toDate().getTime();
+    return dateObject < todayDate
+  }
+
+  openForm(point, date, valid) {
+    if (valid) {
+      this.navCtrl.push(PreFormPage, {
+        formData: this.formData,
+        sections: this.formSections,
+        date: date,
+        point: point
+      })
+    }
   }
 }

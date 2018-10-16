@@ -17,12 +17,31 @@
   <div *ngFor="let routes of formRoutes">
     <span>Grupo de rutas: {{routes.name | uppercase}}</span>
     <div *ngFor="let route of routes.routes">
-      <span>Ruta: {{route.name | uppercase}}</span>
+      <div>
+        <span>Ruta: {{route.name | uppercase}}</span>
+      </div>
+      <div>
+        <span>Fecha: {{ route.day }}</span>
+      </div>
       <ion-list>
-        <ion-item detail-push *ngFor="let place of route.places" (click)="openForm(place)">
-          <span>Punto: {{place.name | uppercase}}</span>
+        <ion-item detail-push *ngFor="let place of route.places" (click)="openForm(place, route.day, compareDate(route.day) && !place.completed)">
+          <div>
+            <span>Punto: {{place.name | uppercase}}</span>
+          </div>
+          <div>
+            <span>Direccion: {{place.address}}</span>
+          </div>
+          <button *ngIf="toLate(route.day)"ion-button color="danger">Vencido</button>
+          <button *ngIf="toSoon(route.day)"ion-button color="danger">Todavia no esta habilitado</button>
+          <button *ngIf="compareDate(route.day) && !place.completed" ion-button color="light">No realizado</button>
+          <button *ngIf="place.completed" ion-button color="secondary">Realizado</button>
         </ion-item>
       </ion-list>
     </div>
   </div>
+  <ion-fab bottom left>
+    <button ion-fab (click)="googleMaps(formRoutes)">
+      <ion-icon name="map"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>
