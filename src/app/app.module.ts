@@ -22,7 +22,7 @@ import { NativeStorage } from '@ionic-native/native-storage';
 import { Camera } from '@ionic-native/camera';
 import { Network } from '@ionic-native/network';
 import { SelectSearchableModule } from 'ionic-select-searchable';
-// import { LaunchNavigator } from '@ionic-native/launch-navigator';
+import { LaunchNavigator } from '@ionic-native/launch-navigator';
 
 @NgModule({
   declarations: [
@@ -62,7 +62,7 @@ import { SelectSearchableModule } from 'ionic-select-searchable';
     HTTP,
     NativeStorage,
     Camera,
-    //LaunchNavigator,
+    LaunchNavigator,
     Network,
   ]
 })

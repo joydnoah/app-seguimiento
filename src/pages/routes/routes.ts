@@ -3,7 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { PreFormPage } from '../pre-form/pre-form';
 import { GlobalProvider } from '../../providers/global/global';
 import * as moment from 'moment'
-// import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
+import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
 /**
  * Generated class for the RoutesPage page.
  *
@@ -24,7 +24,7 @@ export class RoutesPage {
   constructor(
     public navCtrl: NavController,
     public global: GlobalProvider,
-    //private launchNavigator: LaunchNavigator,
+    private launchNavigator: LaunchNavigator,
     public navParams: NavParams
   ) {
     this.formRoutes = navParams.get("routes")
@@ -47,21 +47,20 @@ export class RoutesPage {
   }
 
   googleMaps (formRoutes) {
-    // let pointsCoordinates = []
-    // for (var i = 0; i < formRoutes[0].routes[0].places.length; i++) {
-    //   pointsCoordinates.push(formRoutes[0].routes[0].places[i].coordinates)
-    // }
-    // let options: LaunchNavigatorOptions = {
-    //   app: this.launchNavigator.APP.GOOGLE_MAPS
-    // };
-    // this.launchNavigator.navigate(pointsCoordinates.join("+to:"), options)
-    // .then(
-    //   success => console.log('Launched navigator'),
-    // )
-    // .catch(
-    //   error => console.log(error)
-    // );
-    console.log("A")
+    let pointsCoordinates = []
+    for (var i = 0; i < formRoutes[0].routes[0].places.length; i++) {
+     pointsCoordinates.push(formRoutes[0].routes[0].places[i].coordinates)
+    }
+    let options: LaunchNavigatorOptions = {
+     app: this.launchNavigator.APP.GOOGLE_MAPS
+    };
+    this.launchNavigator.navigate(pointsCoordinates.join("+to:"), options)
+    .then(
+     success => console.log('Launched navigator'),
+    )
+    .catch(
+     error => console.log(error)
+    );
   }
 
   compareDate (date) {
